@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FantaSanremo Assistant 2025</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo-container">
+                    <span class="music-icon">♪</span>
+                    <h1>Sanremo AI Assistant</h1>
+                </div>
+            </div>
+            <div class="music-notes"></div>
+        </header>
+        
+        <div class="main-content">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="icon">🎤</span>
+                    <h2>Artist Insights</h2>
+                    <p>Get detailed information about this year's performers</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🏆</span>
+                    <h2>FantaSanremo Tips</h2>
+                    <p>Strategic advice for your fantasy team</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">⭐</span>
+                    <h2>Score Predictions</h2>
+                    <p>AI-powered performance predictions</p>
+                </div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages"></div>
+                <div class="model-switch">
+                    <div class="switch-group">
+                        <span class="api-key-container">
+                            <input type="text" id="groqApiKey" placeholder="Inserisci chiave API Groq..." />
+                            <span class="tooltip-container">
+                                <span class="help-icon">?</span>
+                                <span class="tooltip">Scopri come ottenere la tua chiave API per chattare</span>
+                            </span>
+                        </span>
+                        <label class="switch">
+                            <input type="checkbox" id="modelToggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="switch-label">Ragionamento profondo</span>
+                    </div>
+                    <div class="switch-group">
+                        <label class="switch">
+                            <input type="checkbox" id="webSearchToggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="switch-label">Ricerca web</span>
+                        <span class="tooltip-container">
+                            <span class="help-icon">?</span>
+                            <span class="tooltip">Scopri come attivare la ricerca web</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="input-area">
+                    <input type="text" id="userInput" placeholder="Chiedi consigli per la tua squadra...">
+                    <button id="voiceButton" title="Parla">
+                        <svg class="mic-icon" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
+                    </button>
+                    <button id="sendButton">
+                        <svg class="send-icon" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay" id="overlay"></div>
+        <div class="popup" id="popup">
+            <button class="popup-close" id="popupClose">×</button>
+            <div class="popup-content">
+                Funzionalità in fase di sviluppo
+            </div>
+        </div>
+        <div class="popup" id="groqApiPopup">
+            <button class="popup-close" id="groqApiPopupClose">×</button>
+            <div class="popup-content">
+                <h3>🔑 Come ottenere la tua chiave API Groq</h3>
+                <div class="api-instructions">
+                    <p>Segui questi passaggi per ottenere una chiave API gratuita:</p>
+                    <ol>
+                        <li>Vai su <a href="https://console.groq.com/" target="_blank">console.groq.com</a></li>
+                        <li>Registrati con il tuo account Google</li>
+                        <li>Accedi alla sezione "API Keys"</li>
+                        <li>Clicca su "Create API Key"</li>
+                        <li>Copia la chiave generata</li>
+                        <li>Incolla la chiave nel campo input qui nell'app</li>
+                    </ol>
+                    <p class="note">La chiave verrà salvata localmente e non sarà condivisa con nessuno.</p>
+                </div>
+            </div>
+        </div>
+        <div class="popup" id="serpApiPopup">
+            <button class="popup-close" id="serpApiPopupClose">×</button>
+            <div class="popup-content">
+                <h3>🔍 Come attivare la ricerca web</h3>
+                <div class="api-instructions">
+                    <p>Per abilitare la ricerca di notizie in tempo reale:</p>
+                    <ol>
+                        <li>Vai su <a href="https://serpapi.com/users/sign_up" target="_blank">serpapi.com</a></li>
+                        <li>Registra un account gratuito</li>
+                        <li>Conferma l'email</li>
+                        <li>Accedi alla dashboard</li>
+                        <li>Copia la chiave API</li>
+                        <li>Attiva il toggle "Ricerca web"</li>
+                        <li>Incolla la chiave quando richiesto</li>
+                    </ol>
+                    <p class="note">Con l'account gratuito hai 100 ricerche al mese</p>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="https://fantasanremo.com/teams" target="_blank" title="Crea la tua squadra">FantaSanremo</a>
+                    <span class="separator">•</span>
+                    <a href="https://fantasanremo.com/fantaquotazioni" target="_blank" title="Quotazioni artisti">Fantaquotazioni</a>
+                    <span class="separator">•</span>
+                    <a href="#" title="Privacy">Privacy</a>
+                </div>
+                <p>Created by Gaia Cecchi © 2025</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
